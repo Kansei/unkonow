@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'dotenv'
-require 'mechanize'
+require 'selenium-webdriver'
 
 get '/' do
   erb :index
@@ -9,21 +9,19 @@ end
 
 get '/tweet' do
   Dotenv.load
-  agent = Mechanize.new
-  agent.follow_meta_refresh = true
-  agent.redirect_ok = true
-  agent.user_agent_alias = 'Mac Safari'
 
-  agent.get('https://twitter.com/login?lang=ja')
+  driver = Selenium::WebDriver.for :firefox
 
-  puts agent.page.title
+  driver.navigate.to 'https://twitter.com/login?lang=ja'
 
-  agent.page.form_with(action: 'https://twitter.com/sessions') do |form|
-    form.field_with(name: 'session[username_or_email]').value = ENV.fetch('EMAIL')
-    form.field_with(name: 'authenticity_token').value = ENV.fetch('PASSWORD')
-    form.click_button
-  end
+  email = driver.find_element(:name, 'session[username_or_email]')
+  email.send_keys ENV.fetch('EMAIL')
 
-  puts agent.page.title
+  email = driver.find_element(:name, 'session[password]')
+  email.send_keys ENV.fetch('PASSWORD')
+
+  button = driver.find_element(:css, '.submit')
+  button.click
+
   redirect '/'
 end
