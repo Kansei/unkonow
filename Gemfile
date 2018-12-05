@@ -6,6 +6,6 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 gem 'sinatra'
 gem 'sinatra-contrib'
-gem 'selenium-webdriver'
-gem 'chromedriver-helper'
+gem 'omniauth'
+gem 'omniauth-twitter'
 gem 'dotenv'
