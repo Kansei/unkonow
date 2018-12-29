@@ -1,32 +1,34 @@
 require 'sinatra'
 require 'sinatra/reloader'
-require 'omniauth'
-require 'omniauth-twitter'
+require 'dotenv'
 
-require_relative './lib/auto_tweet'
+require_relative './lib/outh_twitter'
 
-use Rack::Session::Cookie
-
-use OmniAuth::Builder do
-  provider :twitter, ENV.fetch('CONSUMER_KEY'), ENV.fetch('CONSUMER_SECRET_KEY')
-end
+enable :sessions
 
 get '/' do
+  if session.nil?
+    @twitter = OuthTwitter.new
+    redirect @twitter.get_authorize_url
+  end
   erb :index
 end
 
-post '/auth/open_id' do
-  'Hello World'
-end
-
-post '/auth/:name/callback' do
-  auth = request.env['omniauth.auth']
-end
-
 get '/tweet' do
-  # todo: 絵文字の追加, 非同期処理
-  messages = %w(うんこなう うんぴょなう うんちっちなう うんちょなう うんぴょこなう うんぽこなう unko\ now I'm\ pooping\ now 大便大出來了 똥이\ 마렵따 )
-
-  auto_tweet(messages.sample)
-  redirect '/'
+  erb :index
 end
+
+get '/authorize' do
+  erb :authorize
+end
+
+post '/authorize' do
+  pin = params[:pin]
+  access_token = @twitter.get_access_token(pin)
+  session[:access_token] = access_token.token
+  session[:access_key] = access_token.secret
+  erb :index
+end
+
+
+
