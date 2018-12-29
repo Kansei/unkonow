@@ -9,4 +9,5 @@ gem 'sinatra-contrib'
 gem 'oauth'
 gem 'dotenv'
 gem 'rack-user_agent'
+gem 'rack-flash3'
 

@@ -7,6 +7,8 @@ GEM
     mustermann (1.0.3)
     oauth (0.5.4)
     rack (2.0.6)
+    rack-flash3 (1.0.5)
+      rack
     rack-protection (2.0.5)
       rack
     rack-user_agent (0.5.2)
@@ -33,6 +35,7 @@ PLATFORMS
 DEPENDENCIES
   dotenv
   oauth
+  rack-flash3
   rack-user_agent
   sinatra
   sinatra-contrib
