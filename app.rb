@@ -14,12 +14,12 @@ configure do
 end
 
 get '/' do
-  # redirect '/not_support' if request.from_pc?
-  #
-  # if session[:access_token].nil?
-  #   settings.request_token = twitter.get_request_token
-  #   redirect settings.request_token.authorize_url
-  # end
+  redirect '/not_support' if request.from_pc?
+
+  if session[:access_token].nil?
+    settings.request_token = twitter.get_request_token
+    redirect settings.request_token.authorize_url
+  end
   erb :index
 end
 
