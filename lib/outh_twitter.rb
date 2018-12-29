@@ -14,17 +14,17 @@ class OuthTwitter
   end
 
   def get_authorize_url
-    request_token = @consumer.get_request_token
+    request_token = @consumer.get_request_token(oauth_callback: 'https://unkonow.herokuapp.com/authorize')
 
     request_token.authorize_url
   end
 
-  def get_access_token(pin)
+  def get_access_token(oauth_verifier)
+    @consumer.options.delete(:oauth_callback)
     request_token = @consumer.get_request_token
     access_token = request_token.get_access_token(
        oauth_token: request_token.token,
-       oauth_verifier: pin,
-       oauth_callback: 'https://unkonow.herokuapp.com/authorize'
+       oauth_verifier: oauth_verifier
     )
   end
 end

@@ -18,13 +18,13 @@ get '/tweet' do
   erb :index
 end
 
-get '/authorize' do
-  erb :authorize
-end
+# get '/authorize' do
+#   erb :authorize
+# end
 
-post '/authorize' do
-  pin = params[:pin]
-  access_token = outh_twitter.get_access_token(pin)
+get '/authorize' do
+  oauth_verifier = params[:oauth_verifier]
+  access_token = outh_twitter.get_access_token(oauth_verifier)
   session[:access_token] = access_token.token
   session[:access_key] = access_token.secret
   erb :index
