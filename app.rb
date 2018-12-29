@@ -40,19 +40,11 @@ end
 get '/tweet' do
   access_token = twitter.get_access_token(session[:access_token], session[:access_key])
 
-  messages = ['うんこなう', 'I\'m pooping now', '我現在大便', '나는 지금 비틀 거리고있다', 'je suis caca maintenant', 'أنا أتعب الآن', 'estoy haciendo caca ahora', 'bây giờ tôi đang ị', 'ឥឡូវនេះខ្ញុំកំពុងធ្វើបាប', 'ನಾನು ಈಗ ಪೂಪಿಂಗ್ ಮಾಡುತ್ತಿದ್ದೇನೆ', 'sto facendo la cacca ora
-'].freeze
-
-  langs = ['日本語', '英語', '中国語', '韓国語', 'フランス語', 'アラビア語', 'スペイン語', 'ベトナム語', 'クメール語', 'カンナダ語', 'イタリア語'].freeze
-
-  index = rand(messages.size)
-
-  lang = langs[index]
-  message = messages[index]+'!'
+  message, lang = create_message
 
   result = twitter.tweet(message, access_token)
 
-  if result == 200
+  if result == '200'
     flash[:notice] = "#{lang}で「うんこなう」とつぶやきました。\nTwitterで確認してみましょう！"
   else
     flash[:notice] = "Tweetに失敗しました。"
@@ -64,6 +56,25 @@ end
 helpers do
   def twitter
     @twitter ||= OuthTwitter.new
+  end
+
+  def create_message
+    messages = ['うんこなう', 'I\'m pooping now', '我現在大便', '나는 지금 비틀 거리고있다', 'je suis caca maintenant', 'أنا أتعب الآن', 'estoy haciendo caca ahora', 'bây giờ tôi đang ị','ឥឡូវនេះខ្ញុំកំពុងធ្វើបាប', 'ನಾನು ಈಗ ಪೂಪಿಂಗ್ ಮಾಡುತ್ತಿದ್ದೇನೆ', 'sto facendo la cacca ora
+'].freeze
+
+    langs = ['日本語', '英語', '中国語', '韓国語', 'フランス語', 'アラビア語', 'スペイン語', 'ベトナム語', 'クメール語', 'カンナダ語', 'イタリア語'].freeze
+
+    index = rand(messages.size)
+
+    lang = langs[index]
+
+    if lang == 'アラビア語'
+       message = "!#{messages[index]}"
+    else
+      message = "#{messages[index]}!"
+    end
+
+    [message, lang]
   end
 end
 
