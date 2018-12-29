@@ -9,33 +9,61 @@
       height: 100vh;
       margin:0;
       padding: 0;
+      color: #111111;
+      font-family: YuGothic;
     }
     .main {
       background-color: #f4d942;
       width: 100%;
       height: 100%;
-      position: relative;
     }
-    img {
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      position: absolute;
-      margin: auto;
-      width: 50%;
-      height: 50%;
-      max-height: 250px;
-      max-width: 250px;
+    .contents {
+      padding: 20% 15%;
+      text-align: center;
+    }
+    .title {
+      font-size: 75px;
+    }
+
+    .unko {
+      width: 80%;
+      max-width: 400px;
+      filter: drop-shadow(8px 8px 8px rgba(0,0,0,0.4));
+    }
+
+    .unko:active{
+      filter: drop-shadow(8px 8px 8px rgba(0,0,0,0));
+      padding-top: 5px;
+      width: 78%;
+      max-width: 390px;
+    }
+    .arrow {
+      font-size: 60px;
+      margin: 0;
+    }
+
+    .description {
+      margin: 0;
+      font-size: 30px;
+      text-align: left;
     }
     -->
   </style>
 </head>
 <body>
   <div class="main">
-  <a href='/tweet'>
-    <img src="unko.png">
-  </a>
+    <div class="contents">
+      <h1 class="title">UNKO NOW</h1>
+      <a href='/tweet'>
+        <img class="unko" ontouchstart="" src="unko_button.png">
+      </a>
+      <p class="arrow">
+        ⬆
+      </p>
+      <p class="description">
+        このUNKOを押すと、様々な言語で「うんこなう」とつぶやかれるよ!
+      </p>
+    </div>
   </div>
 </body>
 </html>
