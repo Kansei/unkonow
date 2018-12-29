@@ -9,6 +9,9 @@ GEM
     rack (2.0.6)
     rack-protection (2.0.5)
       rack
+    rack-user_agent (0.5.2)
+      rack (>= 1.5)
+      woothee (>= 1.0.0)
     sinatra (2.0.5)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -22,6 +25,7 @@ GEM
       sinatra (= 2.0.5)
       tilt (>= 1.3, < 3)
     tilt (2.0.9)
+    woothee (1.8.0)
 
 PLATFORMS
   ruby
@@ -29,6 +33,7 @@ PLATFORMS
 DEPENDENCIES
   dotenv
   oauth
+  rack-user_agent
   sinatra
   sinatra-contrib
 
