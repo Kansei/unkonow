@@ -1,5 +1,6 @@
 require 'sinatra'
-require 'sinatra/reloader'
+require 'sinatra/reloader' if development?
+require 'pry' if development?
 require 'dotenv'
 require 'rack/user_agent'
 require 'rack/flash'
@@ -42,12 +43,12 @@ get '/tweet' do
 
   message, lang = create_message
 
-  result = twitter.tweet(message, access_token)
+  response = twitter.tweet(message, access_token)
 
-  if result == '200'
-    flash[:notice] = "#{lang}で「うんこなう」とつぶやきました。\nTwitterで確認してみましょう！"
+  if response.code == '200'
+    flash[:notice] = "#{lang}でつぶやいたよ！\nTwitterで確認してみよう！"
   else
-    flash[:notice] = "Tweetに失敗しました。"
+    flash[:notice] = "うんこしすぎじゃない？"
   end
 
   redirect '/'
@@ -63,17 +64,28 @@ helpers do
 
     langs = ['日本語', '英語', '中国語', '韓国語', 'フランス語', 'アラビア語', 'スペイン語', 'ベトナム語', 'クメール語', 'カンナダ語', 'イタリア語'].freeze
 
-    index = rand(messages.size)
+    random = Random.new(Time.now.sec)
+    index = random.rand(messages.size)
 
     lang = langs[index]
 
-    if lang == 'アラビア語'
-       message = "!#{messages[index]}"
-    else
-      message = "#{messages[index]}!"
-    end
+    massage = attach_unko(messages[index], lang)
 
-    [message, lang]
+    [massage, lang]
+  end
+
+  def attach_unko(message, lang)
+    random = Random.new(Time.now.sec)
+    attach_way = random.rand(3)
+
+    if attach_way == 0
+      message_with_unko = "💩#{message}💩"
+    elsif attach_way == 1
+      message_with_unko = lang == 'アラビア語' ? "💩#{message}" : "#{message}💩"
+    else
+      message_with_unko = lang == 'アラビア語' ? "!#{message}" : "#{message}!"
+    end
+    message_with_unko
   end
 end
 
