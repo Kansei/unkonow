@@ -31,7 +31,6 @@ class OuthTwitter
   end
 
   def tweet(message, access_token)
-    response = access_token.post('https://api.twitter.com/1.1/statuses/update.json', status: message)
-    response.code
+    access_token.post('https://api.twitter.com/1.1/statuses/update.json', status: message)
   end
 end
