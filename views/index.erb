@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>うんこなう</title>
   <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="../images/icons/icon-192x192.png" sizes="192x192"/>
+  <link rel="apple-touch-icon" href="/images/icons/icon-192x192.png" sizes="192x192"/>
   <style type="text/css">
     <!--
     body {
@@ -83,7 +83,7 @@
     <div class="contents">
       <h1 class="title">UNKO NOW</h1>
       <a href='/tweet'>
-        <img class="unko" ontouchstart="" src="unko_button.png">
+        <img class="unko" ontouchstart="" src="/images/unko_button.png">
       </a>
       <p class="arrow">
         ⬆
@@ -98,7 +98,7 @@
       // Service Worker対応ブラウザ
       if ('serviceWorker' in navigator){
           // Service Workerを登録
-          navigator.serviceWorker.register('/serviceworker.js').then(function(registration){
+          navigator.serviceWorker.register('/js/serviceworker.js').then(function(registration){
           });
       }
   </script>

@@ -4,6 +4,7 @@ require 'pry' if development?
 require 'dotenv'
 require 'rack/user_agent'
 require 'rack/flash'
+require 'json'
 
 require_relative './lib/outh_twitter'
 
@@ -13,6 +14,7 @@ configure do
   enable :sessions
   set :request_token, ""
 end
+
 
 get '/' do
   redirect '/not_support' if request.from_pc?
@@ -34,10 +36,6 @@ get '/authorize' do
   redirect '/'
 end
 
-get '/not_support' do
-  erb :not_support
-end
-
 get '/tweet' do
   access_token = twitter.get_access_token(session[:access_token], session[:access_key])
 
@@ -53,6 +51,11 @@ get '/tweet' do
 
   redirect '/'
 end
+
+get '/not_support' do
+  erb :not_support
+end
+
 
 helpers do
   def twitter
