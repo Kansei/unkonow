@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>うんこなう</title>
-  <link rel="manifest" href="../manifest.json">
+  <link rel="manifest" href="/manifest.json">
   <link rel="apple-touch-icon" href="../images/icons/icon-192x192.png" sizes="192x192"/>
   <style type="text/css">
     <!--
@@ -98,7 +98,7 @@
       // Service Worker対応ブラウザ
       if ('serviceWorker' in navigator){
           // Service Workerを登録
-          navigator.serviceWorker.register('../serviceworker.js').then(function(registration){
+          navigator.serviceWorker.register('/serviceworker.js').then(function(registration){
           });
       }
   </script>
