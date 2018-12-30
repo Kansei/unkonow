@@ -1,11 +1,11 @@
 {
   "name": "UNKO NOW",
-  "short_name": "unkonow",
+  "short_name": "UNKONOW",
   "theme_color": "#f4d942",
   "background_color": "#f2f2f2",
   "display": "standalone",
   "Scope": "/",
-  "start_url": "https://unkonow.herokuapp.com",
+  "start_url": "/",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
