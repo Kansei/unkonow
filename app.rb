@@ -15,14 +15,15 @@ configure do
   set :request_token, ""
 end
 
+before do
+  redirect '/not_support' if request.from_pc?
+  unless twitter_authenticated? || request.path_info.include?('/authorize')
+    settings.request_token = twitter.get_request_token
+    @twitter_authorize_url = settings.request_token.authorize_url
+  end
+end
 
 get '/' do
-  redirect '/not_support' if request.from_pc?
-
-  if session[:access_token].nil?
-    settings.request_token = twitter.get_request_token
-    redirect settings.request_token.authorize_url
-  end
   erb :index
 end
 
@@ -33,6 +34,9 @@ get '/authorize' do
 
   session[:access_token] = access_token.token
   session[:access_key] = access_token.secret
+
+  flash[:message] = 'このうんこボタンを押すと、世界に「うんこなう」が共有されるよ!'
+
   redirect '/'
 end
 
@@ -44,7 +48,7 @@ get '/tweet' do
   response = twitter.tweet(message, access_token)
 
   if response.code == '200'
-    flash[:notice] = "#{lang}でつぶやいたよ！\nTwitterで確認してみよう！"
+    flash[:notice] = "#{lang}でつぶやいたよ！Twitterで確認してみよう！"
   else
     flash[:notice] = "うんこしすぎじゃない？"
   end
@@ -62,6 +66,10 @@ helpers do
     @twitter ||= OuthTwitter.new
   end
 
+  def twitter_authenticated?
+    !(session[:access_token].nil? || session[:access_key].nil?)
+  end
+
   def create_message
     messages = ['うんこなう', 'I\'m pooping now', '我現在大便', '나는 지금 비틀 거리고있다', 'je suis caca maintenant', 'أنا أتعب الآن', 'estoy haciendo caca ahora', 'bây giờ tôi đang ị','ឥឡូវនេះខ្ញុំកំពុងធ្វើបាប', 'ನಾನು ಈಗ ಪೂಪಿಂಗ್ ಮಾಡುತ್ತಿದ್ದೇನೆ', 'sto facendo la cacca ora'].freeze
 
@@ -72,9 +80,13 @@ helpers do
 
     lang = langs[index]
 
-    massage = attach_unko(messages[index], lang)
+    message_with_unko = attach_unko(messages[index], lang)
 
-    [massage, lang]
+    hashtag = '#unkonow'
+
+    message = "#{message_with_unko}\n#{hashtag}"
+
+    [message, lang]
   end
 
   def attach_unko(message, lang)

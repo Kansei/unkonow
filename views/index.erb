@@ -4,75 +4,10 @@
   <meta charset="UTF-8">
   <title>うんこなう</title>
   <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" type="text/css" href="/css/index.css">
   <link rel="apple-touch-icon" href="/images/icons/icon-192x192.png" sizes="192x192"/>
   <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
-  <style type="text/css">
-    <!--
-    body {
-      height: 100vh;
-      margin:0;
-      padding: 0;
-      color: #111111;
-      font-family: '游ゴシック体', 'Yu Gothic', YuGothic, sans-serif;
-      font-weight: 500;
-    }
-    .main {
-      background-color: #f4d942;
-      width: 100%;
-      height: 100%;
-      padding: 10px 0;
-    }
-    .contents {
-      padding: 20% 15%;
-      text-align: center;
-    }
-    .title {
-      font-size: 100px;
-      font-family: 'Fredoka One', cursive;
-    }
 
-    .unko {
-      width: 80%;
-      max-width: 400px;
-      filter: drop-shadow(8px 8px 8px rgba(0,0,0,0.4));
-    }
-
-    .unko:active{
-      filter: drop-shadow(8px 8px 8px rgba(0,0,0,0));
-      padding-top: 15px;
-      width: 75%;
-      max-width: 375px;
-    }
-    .arrow {
-      font-size: 60px;
-      margin-top: 40px;
-      margin-bottom: 0;
-    }
-
-    .description {
-      margin: 0;
-      margin-top: 8px;
-      font-size: 40px;
-      text-align: left;
-    }
-
-    .flash-message {
-      position: absolute;
-      width: calc(96% - 30px);
-      margin: 2%;
-      padding: 15px;
-      font-size: 30px;
-      background: #F2F2F2;
-      opacity: 0.8;
-      border-radius: 20px;
-    }
-
-    .text {
-      font-size: 40px;
-      margin: 5px 15px;
-    }
-    -->
-  </style>
 </head>
 <body>
   <div class="main">
@@ -84,15 +19,32 @@
 
     <div class="contents">
       <h1 class="title">UNKO NOW</h1>
-      <a href='/tweet'>
-        <img class="unko" ontouchstart="" src="/images/unko_button.png">
-      </a>
-      <p class="arrow">
-        ⬆
-      </p>
-      <p class="description">
-        このボタンを押して、世界に「うんこなう」とつぶやこう!
-      </p>
+
+      <%
+        if twitter_authenticated?
+          unko_button_url = '/tweet'
+          description = flash[:message]
+        else
+          unko_button_url = @twitter_authorize_url
+          description = 'まずは、このうんこボタンを押してTwitterと連携させよう！'
+        end
+      %>
+        <div class="unko_button">
+          <a href=<%= unko_button_url %>>
+            <img class="unko" ontouchstart="" src="/images/unko_button.png">
+          </a>
+        </div>
+
+      <% unless description.nil? %>
+        <div class="description">
+          <p class="arrow">
+            ⬆
+          </p>
+          <p class="description-text">
+            <%= description %>
+         </p>
+        </div>
+      <% end %>
     </div>
   </div>
 
