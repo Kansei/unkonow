@@ -16,7 +16,8 @@ configure do
 end
 
 before do
-  redirect '/not_support' if request.from_pc?
+  redirect '/not_support' if request.from_pc? && !request.path_info.include?('/not_support')
+
   unless twitter_authenticated? || request.path_info.include?('/authorize')
     settings.request_token = twitter.get_request_token
     @twitter_authorize_url = settings.request_token.authorize_url
