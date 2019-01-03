@@ -29,6 +29,8 @@ get '/' do
 end
 
 get '/authorize' do
+  redirect '/' unless params[:denied].nil?
+  
   oauth_verifier = params[:oauth_verifier]
   request_token = settings.request_token
   access_token = twitter.get_token_and_key_for_access(request_token, oauth_verifier)
